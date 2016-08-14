@@ -1,0 +1,24 @@
+{
+    "siteManagerApp": {
+        "available" : {
+            "home": {
+                "title": "Availables",
+                "createLabel": "Create a new Available",
+                "createOrEditLabel": "Create or edit a Available",
+                "search": "Search for Available"
+            },
+            "created": "A new Available is created with identifier {{ param }}",
+            "updated": "A Available is updated with identifier {{ param }}",
+            "deleted": "A Available is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Available {{ id }}?"
+            },
+            "detail": {
+                "title": "Available"
+            },
+            "beginOfAvailability": "Begin Of Availability",
+            "endOfAvailability": "End Of Availability",
+            "user": "User"
+        }
+    }
+}
