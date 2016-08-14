@@ -1,0 +1,62 @@
+<div>
+    <h2 translate="siteManagerApp.available.home.title">Availables</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="available.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  translate="siteManagerApp.available.home.createLabel">
+                        Create new Available
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span translate="global.field.id">ID</span></th>
+                    <th><span translate="siteManagerApp.available.beginOfAvailability">Begin Of Availability</span></th>
+                    <th><span translate="siteManagerApp.available.endOfAvailability">End Of Availability</span></th>
+                    <th><span translate="siteManagerApp.available.user">User</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="available in vm.availables track by available.id">
+                    <td><a ui-sref="available-detail({id:available.id})">{{available.id}}</a></td>
+                        <td>{{available.beginOfAvailability | date:'mediumDate'}}</td>
+                        <td>{{available.endOfAvailability | date:'mediumDate'}}</td>
+                    <td>
+                        {{available.user.id}}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="available-detail({id:available.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="available.edit({id:available.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="available.delete({id:available.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
