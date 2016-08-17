@@ -21,6 +21,9 @@
                     <th><span translate="global.field.id">ID</span></th>
                     <th><span translate="siteManagerApp.available.beginOfAvailability">Begin Of Availability</span></th>
                     <th><span translate="siteManagerApp.available.endOfAvailability">End Of Availability</span></th>
+                    <th><span translate="siteManagerApp.available.country">Country</span></th>
+                    <th><span translate="siteManagerApp.available.city">City</span></th>
+                    <th><span translate="siteManagerApp.available.postalcode">Postalcode</span></th>
                     <th><span translate="siteManagerApp.available.user">User</span></th>
                     <th></th>
                 </tr>
@@ -30,6 +33,9 @@
                     <td><a ui-sref="available-detail({id:available.id})">{{available.id}}</a></td>
                         <td>{{available.beginOfAvailability | date:'mediumDate'}}</td>
                         <td>{{available.endOfAvailability | date:'mediumDate'}}</td>
+                    <td>{{available.country}}</td>
+                    <td>{{available.city}}</td>
+                    <td>{{available.postalcode}}</td>
                     <td>
                         {{available.user.login}}
                     </td>

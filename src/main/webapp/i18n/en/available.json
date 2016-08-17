@@ -2,22 +2,25 @@
     "siteManagerApp": {
         "available" : {
             "home": {
-                "title": "Availables",
-                "createLabel": "Create a new Available",
-                "createOrEditLabel": "Create or edit a Available",
-                "search": "Search for Available"
+                "title": "Availabilities",
+                "createLabel": "Create a new Availability",
+                "createOrEditLabel": "Create or edit an Availability",
+                "search": "Search for Availabilities"
             },
-            "created": "A new Available is created with identifier {{ param }}",
-            "updated": "A Available is updated with identifier {{ param }}",
-            "deleted": "A Available is deleted with identifier {{ param }}",
+            "created": "A new Availability is created with identifier {{ param }}",
+            "updated": "A Availability is updated with identifier {{ param }}",
+            "deleted": "A Availability is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Available {{ id }}?"
+                "question": "Are you sure you want to delete Availability {{ id }}?"
             },
             "detail": {
-                "title": "Available"
+                "title": "Availability"
             },
             "beginOfAvailability": "Begin Of Availability",
             "endOfAvailability": "End Of Availability",
+            "country": "Country",
+            "city": "City",
+            "postalcode": "Postalcode",
             "user": "User"
         }
     }

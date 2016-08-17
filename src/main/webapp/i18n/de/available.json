@@ -2,22 +2,25 @@
     "siteManagerApp": {
         "available" : {
             "home": {
-                "title": "Availables",
-                "createLabel": "Available erstellen",
-                "createOrEditLabel": "Available erstellen oder bearbeiten",
-                "search": "Suche nach Available"
+                "title": "Verfügbarkeiten",
+                "createLabel": "Verfügbarkeit erstellen",
+                "createOrEditLabel": "Verfügbarkeit erstellen oder bearbeiten",
+                "search": "Suche nach Verfügbarkeiten"
             },
-            "created": "Available erstellt mit ID {{ param }}",
-            "updated": "Available aktualisiert mit ID {{ param }}",
-            "deleted": "Available gelöscht mit ID {{ param }}",
+            "created": "Verfügbarkeit erstellt mit ID {{ param }}",
+            "updated": "Verfügbarkeit aktualisiert mit ID {{ param }}",
+            "deleted": "Verfügbarkeit gelöscht mit ID {{ param }}",
             "delete": {
-                "question": "Soll Available {{ id }} wirklich dauerhaft gelöscht werden?"
+                "question": "Soll Verfügbarkeit {{ id }} wirklich dauerhaft gelöscht werden?"
             },
             "detail": {
-                "title": "Available"
+                "title": "Verfügbarkeit"
             },
-            "beginOfAvailability": "Begin Of Availability",
-            "endOfAvailability": "End Of Availability",
+            "beginOfAvailability": "Verfügbarkeitsbeginn",
+            "endOfAvailability": "Verfügbarkeitsende",
+            "country": "Land",
+            "city": "Stadt",
+            "postalcode": "PLZ",
             "user": "User"
         }
     }

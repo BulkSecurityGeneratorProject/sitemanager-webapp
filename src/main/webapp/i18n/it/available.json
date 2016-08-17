@@ -18,6 +18,9 @@
             },
             "beginOfAvailability": "Begin Of Availability",
             "endOfAvailability": "End Of Availability",
+            "country": "Country",
+            "city": "City",
+            "postalcode": "Postalcode",
             "user": "User"
         }
     }

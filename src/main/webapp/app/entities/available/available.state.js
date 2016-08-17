@@ -106,6 +106,9 @@
                             return {
                                 beginOfAvailability: null,
                                 endOfAvailability: null,
+                                country: null,
+                                city: null,
+                                postalcode: null,
                                 id: null
                             };
                         }
