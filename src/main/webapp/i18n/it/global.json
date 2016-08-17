@@ -120,5 +120,5 @@
         "emailexists": "L' e-mail è già in uso!",
         "idexists": "Una nuova entità {{entityName}} non può avere il medesimo ID di una esistente"
     },
-    "footer": "pié di pagina"
+    "footer": ""
 }

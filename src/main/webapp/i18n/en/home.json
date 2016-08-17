@@ -1,7 +1,7 @@
 {
     "home": {
         "title": "Welcome to SiteManager!",
-        "subtitle": "The oline architect and sitemanager platform",
+        "subtitle": "The online architect and sitemanager platform",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         }
