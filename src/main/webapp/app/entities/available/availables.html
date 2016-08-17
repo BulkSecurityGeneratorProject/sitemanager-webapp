@@ -24,7 +24,10 @@
                     <th><span translate="siteManagerApp.available.country">Country</span></th>
                     <th><span translate="siteManagerApp.available.city">City</span></th>
                     <th><span translate="siteManagerApp.available.postalcode">Postalcode</span></th>
-                    <th><span translate="siteManagerApp.available.user">User</span></th>
+
+                    <!--only show Admins the user col-->
+                    <th has-authority="ROLE_ADMIN"><span translate="siteManagerApp.available.user">User</span></th>
+
                     <th></th>
                 </tr>
             </thead>
@@ -36,7 +39,8 @@
                     <td>{{available.country}}</td>
                     <td>{{available.city}}</td>
                     <td>{{available.postalcode}}</td>
-                    <td>
+                    <!--only show Admins the user col-->
+                    <td has-authority="ROLE_ADMIN">
                         {{available.user.login}}
                     </td>
                     <td class="text-right">
