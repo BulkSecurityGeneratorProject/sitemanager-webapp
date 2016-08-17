@@ -3,6 +3,7 @@ package net.systemexklusiv.sitemanager.web.rest;
 import net.systemexklusiv.sitemanager.SiteManagerApp;
 import net.systemexklusiv.sitemanager.domain.Available;
 import net.systemexklusiv.sitemanager.repository.AvailableRepository;
+import net.systemexklusiv.sitemanager.repository.UserRepository;
 import net.systemexklusiv.sitemanager.service.AvailableService;
 
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
@@ -21,6 +23,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -28,6 +31,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -73,11 +78,24 @@ public class AvailableResourceIntTest {
 
     private Available available;
 
+    // the user repository is needed here because creating Availabilities is depending on the
+    // User's authorities
+    @Inject
+    private UserRepository userRepository;
+    // We need also the context
+
+    @Autowired
+    private WebApplicationContext context;
+
     @PostConstruct
     public void setup() {
+
         MockitoAnnotations.initMocks(this);
         AvailableResource availableResource = new AvailableResource();
         ReflectionTestUtils.setField(availableResource, "availableService", availableService);
+        // set the user repository
+        ReflectionTestUtils.setField(availableResource, "userRepository", userRepository);
+
         this.restAvailableMockMvc = MockMvcBuilders.standaloneSetup(availableResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -98,12 +116,24 @@ public class AvailableResourceIntTest {
     public void createAvailable() throws Exception {
         int databaseSizeBeforeCreate = availableRepository.findAll().size();
 
+        MockMvc restAvailableSecurityAwareMockMvc = MockMvcBuilders
+            .webAppContextSetup(context)
+            .apply(springSecurity())
+            .build();
+
         // Create the Available
+//        restAvailableSecurityAwareMockMvc.perform(post("/api/availables")
+//            .with(user("user"))
+//            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+//            .content(TestUtil.convertObjectToJsonBytes(available)))
+//            .andExpect(status().isCreated());
 
         restAvailableMockMvc.perform(post("/api/availables")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(available)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(available)))
+            .andExpect(status().isCreated());
+
+
 
         // Validate the Available in the database
         List<Available> availables = availableRepository.findAll();
