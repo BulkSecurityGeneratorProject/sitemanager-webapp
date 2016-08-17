@@ -2,7 +2,12 @@ package net.systemexklusiv.sitemanager.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import net.systemexklusiv.sitemanager.domain.Available;
+import net.systemexklusiv.sitemanager.domain.User;
+import net.systemexklusiv.sitemanager.repository.AvailableRepository;
+import net.systemexklusiv.sitemanager.security.AuthoritiesConstants;
+import net.systemexklusiv.sitemanager.security.SecurityUtils;
 import net.systemexklusiv.sitemanager.service.AvailableService;
+import net.systemexklusiv.sitemanager.service.UserService;
 import net.systemexklusiv.sitemanager.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +32,16 @@ import java.util.Optional;
 public class AvailableResource {
 
     private final Logger log = LoggerFactory.getLogger(AvailableResource.class);
-        
+
     @Inject
     private AvailableService availableService;
-    
+
+    @Inject
+    private AvailableRepository availableRepository;
+
+    @Inject
+    private UserService userService;
+
     /**
      * POST  /availables : Create a new available.
      *
@@ -46,6 +57,14 @@ public class AvailableResource {
         log.debug("REST request to save Available : {}", available);
         if (available.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("available", "idexists", "A new available cannot already have an ID")).body(null);
+        }
+
+        // When the current user is not the Admin the user who created the availability is the current user
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            User currentUser = userService.getUserWithAuthorities();
+            log.debug("created by a user with authority {} so using current user for creration: {}",
+                currentUser.getAuthorities().toString(), SecurityUtils.getCurrentUserLogin());
+                available.setUser(currentUser);
         }
         Available result = availableService.save(available);
         return ResponseEntity.created(new URI("/api/availables/" + result.getId()))
@@ -88,7 +107,14 @@ public class AvailableResource {
     @Timed
     public List<Available> getAllAvailables() {
         log.debug("REST request to get all Availables");
-        return availableService.findAll();
+        List<Available> toReturn;
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            toReturn = availableRepository.findAll();
+        }
+        else {
+            toReturn = availableRepository.findByUserIsCurrentUser();
+        }
+        return toReturn;
     }
 
     /**
