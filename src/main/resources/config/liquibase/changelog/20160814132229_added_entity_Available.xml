@@ -29,6 +29,18 @@
                 <constraints nullable="false" />
             </column>
             
+            <column name="country" type="varchar(20)">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="city" type="varchar(20)">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="postalcode" type="varchar(20)">
+                <constraints nullable="false" />
+            </column>
+            
             <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
