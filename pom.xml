@@ -552,7 +552,7 @@
                     <driver>org.postgresql.Driver</driver>
                     <url>jdbc:postgresql://localhost:5432/SiteManager</url>
                     <defaultSchemaName></defaultSchemaName>
-                    <username>SiteManager</username>
+                    <username>postgres</username>
                     <password></password>
                     <referenceUrl>hibernate:spring:net.systemexklusiv.sitemanager.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.ejb.naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
