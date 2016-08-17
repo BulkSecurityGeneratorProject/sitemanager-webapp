@@ -50,6 +50,12 @@ public class AvailableResourceIntTest {
 
     private static final LocalDate DEFAULT_END_OF_AVAILABILITY = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_END_OF_AVAILABILITY = LocalDate.now(ZoneId.systemDefault());
+    private static final String DEFAULT_COUNTRY = "AAA";
+    private static final String UPDATED_COUNTRY = "BBB";
+    private static final String DEFAULT_CITY = "";
+    private static final String UPDATED_CITY = "";
+    private static final String DEFAULT_POSTALCODE = "AAA";
+    private static final String UPDATED_POSTALCODE = "BBB";
 
     @Inject
     private AvailableRepository availableRepository;
@@ -82,6 +88,9 @@ public class AvailableResourceIntTest {
         available = new Available();
         available.setBeginOfAvailability(DEFAULT_BEGIN_OF_AVAILABILITY);
         available.setEndOfAvailability(DEFAULT_END_OF_AVAILABILITY);
+        available.setCountry(DEFAULT_COUNTRY);
+        available.setCity(DEFAULT_CITY);
+        available.setPostalcode(DEFAULT_POSTALCODE);
     }
 
     @Test
@@ -102,6 +111,9 @@ public class AvailableResourceIntTest {
         Available testAvailable = availables.get(availables.size() - 1);
         assertThat(testAvailable.getBeginOfAvailability()).isEqualTo(DEFAULT_BEGIN_OF_AVAILABILITY);
         assertThat(testAvailable.getEndOfAvailability()).isEqualTo(DEFAULT_END_OF_AVAILABILITY);
+        assertThat(testAvailable.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testAvailable.getCity()).isEqualTo(DEFAULT_CITY);
+        assertThat(testAvailable.getPostalcode()).isEqualTo(DEFAULT_POSTALCODE);
     }
 
     @Test
@@ -142,6 +154,60 @@ public class AvailableResourceIntTest {
 
     @Test
     @Transactional
+    public void checkCountryIsRequired() throws Exception {
+        int databaseSizeBeforeTest = availableRepository.findAll().size();
+        // set the field null
+        available.setCountry(null);
+
+        // Create the Available, which fails.
+
+        restAvailableMockMvc.perform(post("/api/availables")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(available)))
+                .andExpect(status().isBadRequest());
+
+        List<Available> availables = availableRepository.findAll();
+        assertThat(availables).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCityIsRequired() throws Exception {
+        int databaseSizeBeforeTest = availableRepository.findAll().size();
+        // set the field null
+        available.setCity(null);
+
+        // Create the Available, which fails.
+
+        restAvailableMockMvc.perform(post("/api/availables")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(available)))
+                .andExpect(status().isBadRequest());
+
+        List<Available> availables = availableRepository.findAll();
+        assertThat(availables).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkPostalcodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = availableRepository.findAll().size();
+        // set the field null
+        available.setPostalcode(null);
+
+        // Create the Available, which fails.
+
+        restAvailableMockMvc.perform(post("/api/availables")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(available)))
+                .andExpect(status().isBadRequest());
+
+        List<Available> availables = availableRepository.findAll();
+        assertThat(availables).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAvailables() throws Exception {
         // Initialize the database
         availableRepository.saveAndFlush(available);
@@ -152,7 +218,10 @@ public class AvailableResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(available.getId().intValue())))
                 .andExpect(jsonPath("$.[*].beginOfAvailability").value(hasItem(DEFAULT_BEGIN_OF_AVAILABILITY.toString())))
-                .andExpect(jsonPath("$.[*].endOfAvailability").value(hasItem(DEFAULT_END_OF_AVAILABILITY.toString())));
+                .andExpect(jsonPath("$.[*].endOfAvailability").value(hasItem(DEFAULT_END_OF_AVAILABILITY.toString())))
+                .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())))
+                .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
+                .andExpect(jsonPath("$.[*].postalcode").value(hasItem(DEFAULT_POSTALCODE.toString())));
     }
 
     @Test
@@ -167,7 +236,10 @@ public class AvailableResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(available.getId().intValue()))
             .andExpect(jsonPath("$.beginOfAvailability").value(DEFAULT_BEGIN_OF_AVAILABILITY.toString()))
-            .andExpect(jsonPath("$.endOfAvailability").value(DEFAULT_END_OF_AVAILABILITY.toString()));
+            .andExpect(jsonPath("$.endOfAvailability").value(DEFAULT_END_OF_AVAILABILITY.toString()))
+            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()))
+            .andExpect(jsonPath("$.city").value(DEFAULT_CITY.toString()))
+            .andExpect(jsonPath("$.postalcode").value(DEFAULT_POSTALCODE.toString()));
     }
 
     @Test
@@ -191,6 +263,9 @@ public class AvailableResourceIntTest {
         updatedAvailable.setId(available.getId());
         updatedAvailable.setBeginOfAvailability(UPDATED_BEGIN_OF_AVAILABILITY);
         updatedAvailable.setEndOfAvailability(UPDATED_END_OF_AVAILABILITY);
+        updatedAvailable.setCountry(UPDATED_COUNTRY);
+        updatedAvailable.setCity(UPDATED_CITY);
+        updatedAvailable.setPostalcode(UPDATED_POSTALCODE);
 
         restAvailableMockMvc.perform(put("/api/availables")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -203,6 +278,9 @@ public class AvailableResourceIntTest {
         Available testAvailable = availables.get(availables.size() - 1);
         assertThat(testAvailable.getBeginOfAvailability()).isEqualTo(UPDATED_BEGIN_OF_AVAILABILITY);
         assertThat(testAvailable.getEndOfAvailability()).isEqualTo(UPDATED_END_OF_AVAILABILITY);
+        assertThat(testAvailable.getCountry()).isEqualTo(UPDATED_COUNTRY);
+        assertThat(testAvailable.getCity()).isEqualTo(UPDATED_CITY);
+        assertThat(testAvailable.getPostalcode()).isEqualTo(UPDATED_POSTALCODE);
     }
 
     @Test
